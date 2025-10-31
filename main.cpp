@@ -91,22 +91,75 @@ int createLeafNodes(int freq[]) {
 int buildEncodingTree(int nextFree) {
     // TODO:
     // 1. Create a MinHeap object.
+    MinHeap heap;
+
     // 2. Push all leaf node indices into the heap.
+    for (int i=0; i < nextFree; i++) {
+        heap.push(i, weightArr);
+    }
+
     // 3. While the heap size is greater than 1:
+    if (heap.size == 0) return -1;          //edge case
     //    - Pop two smallest nodes
-    //    - Create a new parent node with combined weight
-    //    - Set left/right pointers
-    //    - Push new parent index back into the heap
+    while (heap.size > 1) {
+        int a = heap.pop(weightArr);
+        int b = heap.pop(weightArr);
+
+        //    - Create a new parent node with combined weight & Set left/right pointers
+        int parent = nextFree++;
+        leftArr[parent] = a;
+        rightArr[parent] = b;
+        weightArr[parent] = weightArr[a] + weightArr[b];
+
+        //    - Push new parent index back into the heap
+        heap.push(parent, weightArr);
+    }
     // 4. Return the index of the last remaining node (root)
-    return -1; // placeholder
+
+    return heap.pop(weightArr);
 }
 
 // Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
     // TODO:
-    // Use stack<pair<int, string>> to simulate DFS traversal.
+    // Use stack<pair<int, string>> to simulate DFS traversal
     // Left edge adds '0', right edge adds '1'.
     // Record code when a leaf node is reached.
+
+    if (root == -1) return;                     //edge case
+
+    if (leftArr[root] == -1 && rightArr[root] == -1) {          //for cases where only one unique character like aaaa
+        codes[charArr[root] - 'a'] = "0";
+        return;
+    }
+
+    stack<pair<int, string>> stack;
+    stack.push({root, ""});
+
+    while (!stack.empty()) {
+        auto current = stack.top();
+        stack.pop();
+
+        int node = current.first;
+        string path = current.second;
+
+        int left = leftArr[node];
+        int right = rightArr[node];
+
+
+        if (left == -1 && right == -1) {
+            char ch = charArr[node];
+            codes[ch - 'a'] = path;
+        }
+        else {
+            if (right !=-1)
+                stack.push({right, path + "1"});
+            if (left !=-1)
+                stack.push({left, path + "0"});
+        }
+    }
+
+
 }
 
 // Step 5: Print table and encoded message
