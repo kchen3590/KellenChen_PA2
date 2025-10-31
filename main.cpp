@@ -101,6 +101,7 @@ int buildEncodingTree(int nextFree) {
     // 3. While the heap size is greater than 1:
     if (heap.size == 0) return -1;          //edge case
     //    - Pop two smallest nodes
+
     while (heap.size > 1) {
         int a = heap.pop(weightArr);
         int b = heap.pop(weightArr);

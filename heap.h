@@ -9,28 +9,30 @@
 using namespace std;
 
 struct MinHeap {
-    int data[64];
-    int size;
+    int data[64];           //stores indices of nodes
+    int size;                   // this is the number of items currently in the heap
 
     MinHeap() { size = 0; }
 
     void push(int idx, int weightArr[]) {
         // TODO: insert index at end of heap, restore order using upheap()
-        data[size] = idx;       //puts new item at the end
-        upheap(size, weightArr);
-        size++;     //increase heap size
+        data[size] = idx;               //puts new item at the end
+        upheap(size, weightArr);        //restores the order
+        size++;                         //increase heap size
     }
 
     int pop(int weightArr[]) {
         // TODO: remove and return smallest index
         // Replace root with last element, then call downheap()
-        if (size == 0)          //edge case
+        if (size == 0)                 //edge case
             return -1;
+
         int top = data[0];
         size--;
+
         if (size >0) {
             data[0] = data[size];
-            downheap(0, weightArr);         //this fixes heap order
+            downheap(0, weightArr);      //this fixes heap order
         }
         return top;
     }
@@ -38,7 +40,7 @@ struct MinHeap {
     void upheap(int pos, int weightArr[]) {
         // TODO: swap child upward while smaller than parent
         while (pos >0) {
-            int parent = (pos - 1) / 2;             //this is to find parent index
+            int parent = (pos - 1) / 2;                                 //this is to find parent index
             if (weightArr[data[pos]] < weightArr[data[parent]]) {       //if parent is bigger than child,  swap
                 int temp = data[pos];
                 data[pos] = data[parent];
