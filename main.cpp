@@ -1,6 +1,8 @@
 //
 // Created by Manju Muralidharan on 10/19/25.
 //
+//the program reads and encodes text from input.txt through frequency based
+//encoding. in other words, the more frequent the character, the shorter the binary code.
 #include <iostream>
 #include <fstream>
 #include <stack>
@@ -127,19 +129,19 @@ void generateCodes(int root, string codes[]) {
     // Left edge adds '0', right edge adds '1'.
     // Record code when a leaf node is reached.
 
-    if (root == -1) return;                     //edge case
+    if (root == -1) return;                                      //edge case
 
     if (leftArr[root] == -1 && rightArr[root] == -1) {          //for cases where only one unique character like aaaa
         codes[charArr[root] - 'a'] = "0";
         return;
     }
 
-    stack<pair<int, string>> stack;
-    stack.push({root, ""});
+    stack<pair<int, string>> st;                     //use a stack for traversal
+    st.push({root, ""});
 
-    while (!stack.empty()) {
-        auto current = stack.top();
-        stack.pop();
+    while (!st.empty()) {
+        auto current = st.top();
+        st.pop();
 
         int node = current.first;
         string path = current.second;
@@ -148,15 +150,15 @@ void generateCodes(int root, string codes[]) {
         int right = rightArr[node];
 
 
-        if (left == -1 && right == -1) {
+        if (left == -1 && right == -1) {                //if leaf node: assign its code. push right then left so left is processed first.
             char ch = charArr[node];
             codes[ch - 'a'] = path;
         }
         else {
             if (right !=-1)
-                stack.push({right, path + "1"});
+                st.push({right, path + "1"});
             if (left !=-1)
-                stack.push({left, path + "0"});
+                st.push({left, path + "0"});
         }
     }
 
