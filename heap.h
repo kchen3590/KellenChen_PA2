@@ -1,5 +1,7 @@
 //
 // Created by Manju Muralidharan on 10/19/25.
+
+//implement simple minheap for frequency encoding, the smaller weight frequencies are pushed to the top.
 //
 
 #ifndef HEAP_H
@@ -70,11 +72,11 @@ struct MinHeap {
                 break;
             }
 
-            int temp =data[pos];
+            int temp =data[pos];            //this swaps parent w/ the smallest child
             data[pos] = data[smallest];
             data[smallest] = temp;
 
-            pos = smallest;
+            pos = smallest;                 //moves downward and repeats
         }
     }
 };
