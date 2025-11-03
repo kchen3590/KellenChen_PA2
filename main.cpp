@@ -1,8 +1,8 @@
 //
 // Created by Manju Muralidharan on 10/19/25.
 //
-//the program reads and encodes text from input.txt through frequency based
-//encoding. in other words, the more frequent the character, the shorter the binary code.
+//The program reads and encodes text from input.txt through frequency based
+//encoding. In other words, the more frequent the character, the shorter the binary code.
 #include <iostream>
 #include <fstream>
 #include <stack>
@@ -96,7 +96,7 @@ int buildEncodingTree(int nextFree) {
     MinHeap heap;
 
     // 2. Push all leaf node indices into the heap.
-    for (int i=0; i < nextFree; i++) {
+    for (int i=0; i<nextFree; i++) {
         heap.push(i, weightArr);
     }
 
@@ -124,11 +124,6 @@ int buildEncodingTree(int nextFree) {
 
 // Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
-    // TODO:
-    // Use stack<pair<int, string>> to simulate DFS traversal
-    // Left edge adds '0', right edge adds '1'.
-    // Record code when a leaf node is reached.
-
     if (root == -1) return;                                      //edge case
 
     if (leftArr[root] == -1 && rightArr[root] == -1) {          //for cases where only one unique character like aaaa
